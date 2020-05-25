@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nosql/home.dart';
+import 'package:nosql/splash.dart';
 
 
 void main() {

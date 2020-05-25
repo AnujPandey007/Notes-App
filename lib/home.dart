@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
-import 'package:nosql/splash.dart';
+import 'package:nosql/Loading.dart';
 
-class Myapp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "ProxyNotes",
-      home: Home(),
-    );
-  }
-}
 
 class Home extends StatefulWidget {
   @override
@@ -42,7 +32,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     if(data==null){
-      return Splash();
+      return Loading();
     }else{
       return Scaffold(
         appBar: AppBar(
