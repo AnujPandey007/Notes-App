@@ -73,7 +73,7 @@ class _HomeState extends State<Home> {
           itemBuilder: (BuildContext context, int index) {
             return Container(
               width: double.infinity,
-              height: 550.0,
+              height: 540.0,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Card(
@@ -83,13 +83,25 @@ class _HomeState extends State<Home> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           CircleAvatar(
-                            radius: 35.0,
+                            radius: 25.0,
                             backgroundImage: AssetImage("assets/images/2.png"),
                           ),
-                          SizedBox(width:15.0 ,),
-                          Text(data[index]["author"].toString()),
-                          SizedBox(width:145.0 ,),
-                          Text(data[index]["topic"].toString()),
+                          SizedBox(width:10.0 ,),
+                          Text(
+                            data[index]["author"].toString(),
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          SizedBox(width:170.0 ,),
+                          Text(
+                            data[index]["topic"].toString(),
+                            style: TextStyle(
+                              color: Colors.indigo
+                            ),
+                          ),
                         ],
                       ),                                                //As the online image is not safe so we cant load from online, thus we had to use offline mode.
                       Padding(
@@ -100,29 +112,69 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       Image.asset("assets/images/1.png"),
-                      Divider(),
-                      Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text("Comments"),
-                            Text("Upvotes"),
-                            Text("Downvotes"),
-                          ],
-                        ),
+                      SizedBox(height: 5.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Text(data[index]["upvotes"].toString()),
+                          SizedBox(width: 5.0),
+                          Text("Upvotes"),
+                          SizedBox(width: 10.0),
+                          Text(data[index]["comments"].toString()),
+                          SizedBox(width: 5.0),
+                          Text("Comments"),
+                          SizedBox(width: 10.0),
+                          Text(data[index]["downvotes"].toString()),
+                          SizedBox(width: 5.0),
+                          Text("Downvotes"),
+                          SizedBox(width: 80.0),
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 38.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(data[index]["comments"].toString()),
-                            Text(data[index]["upvotes"].toString()),
-                            Text(data[index]["downvotes"].toString()),
-                          ],
-                        ),
-                      )
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          FlatButton.icon(
+                            shape:RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                            highlightColor: Colors.blue[100],
+                            onPressed: () {}, 
+                            icon: Icon(
+                              Icons.thumb_up,
+                              size: 20.0,
+                              color: Colors.blue[200],
+                            ), 
+                            label: Text("Upvotes"),
+                          ),
+                          FlatButton.icon(
+                            shape:RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                            highlightColor: Colors.amber[100],
+                            onPressed: () {}, 
+                            icon: Icon(
+                              Icons.mode_comment,
+                              size: 20.0,
+                              color: Colors.amber[200],
+                            ), 
+                            label: Text("Comments"),
+                          ),
+                          FlatButton.icon(
+                            shape:RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                            ),
+                            highlightColor: Colors.red[100],
+                            onPressed: () {}, 
+                            icon: Icon(
+                              Icons.thumb_down,
+                              size: 20.0,
+                              color: Colors.red[200],
+                            ), 
+                            label: Text("Downvotes"),
+                          ),
+                        ],
+                      ),
                     ],
                   )
                 ),
