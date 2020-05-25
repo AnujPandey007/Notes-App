@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart';
-import 'dart:convert';
 import 'package:nosql/Loading.dart';
+import 'dart:convert';
 
 
 class Home extends StatefulWidget {
@@ -13,13 +14,33 @@ class _HomeState extends State<Home> {
 
   List data;
 
-  void getinfo() async{
-    Response response = await get("http://revidly.surge.sh/revidlyapi.json");
-    //List data = jsonDecode(response.body);
-    this.setState(() { 
-      data = jsonDecode(response.body);
-    });
-  
+  final String dbName = "socialPost";
+
+  //Fetching The Data 
+
+  void getinfo() async {
+    await Hive.openBox(dbName);
+    final posts = Hive.box(dbName);
+    //Checking if data exists in database
+    if(posts.length == 0) {
+      Response response = await get("http://revidly.surge.sh/revidlyapi.json"); //Api Link
+      this.setState(() {
+        data = jsonDecode(response.body);
+        addSocialPost(data);
+      });
+    } else {
+      this.setState(() {
+        //Remove previous data if 'data' variable is not null
+        if(data != null)
+          data.clear();
+        else
+          data = new List<dynamic>();
+          //Converting Map to List of "posts"
+          posts.toMap().entries.forEach((element) {
+          data.add(element.value);
+        });
+      });
+    }
   }
 
   @override
@@ -28,11 +49,20 @@ class _HomeState extends State<Home> {
     this.getinfo();
   }
 
+  void addSocialPost(final data){
+    Hive.box(dbName).addAll(data); //Add data to database
+  }
+
+  @override
+  void dispose() {
+    Hive.box(dbName).close(); //Closing database
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     if(data==null){
-      return Loading();
+      return Loading();  //If Data Is Null Showing Loading Screen
     }else{
       return Scaffold(
         appBar: AppBar(
